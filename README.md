@@ -1,2 +1,2 @@
-# An Api SDK for OWASP Zap with .Net Core 6.0
+# An Api SDK for OWASP Zap with .Net Core
 
