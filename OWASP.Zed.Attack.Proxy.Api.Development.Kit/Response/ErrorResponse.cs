@@ -2,7 +2,7 @@
 
 namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response
 {
-    public class BaseResponse : IResponse
+    public class ErrorResponse : IResponse
     {
         /// <summary>
         /// 
