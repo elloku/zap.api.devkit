@@ -5,7 +5,7 @@ using OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response;
 
 namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.Utils;
 
-public class Http
+public class ZapApiClient
 {
     private RestClient _client;
     private RestRequest _request;
@@ -32,7 +32,7 @@ public class Http
         }
     }
 
-    public Http(string requestUri)
+    public ZapApiClient(string requestUri)
     {
         _client ??= new RestClient();
         _request = new RestRequest(Env.BaseUri + requestUri);

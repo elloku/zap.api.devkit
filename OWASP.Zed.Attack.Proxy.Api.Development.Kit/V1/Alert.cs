@@ -16,83 +16,78 @@ public class Alert
     private const string ActionDeleteAllAlertsUri = "/alert/action/deleteAllAlerts/";
     private const string ActionDeleteAlertUri = "/alert/action/deleteAlert/";
 
+    private ZapApiClient _client;
+    
     public async Task<IResponse?> ViewAlert(int id)
     {
-        Http http = new(ViewAlertUri);
-        http.AddParameter("id", id);
-        var response = await http.GetAsync<AlertResponse>();
+        _client = new ZapApiClient(ViewAlertUri);
+        _client.AddParameter("id", id);
+        var response = await _client.GetAsync<AlertResponse>();
         Console.WriteLine(JsonConvert.SerializeObject(response));
         return response;
     }
 
     public async Task<IResponse?> ViewAlerts(string baseUrl, int start, int count, string riskId)
     {
-        Http http = new(ViewAlertsUri);
-        http.AddParameters(new Dictionary<string, object?>()
+        _client = new ZapApiClient(ViewAlertsUri);
+        _client.AddParameters(new Dictionary<string, object?>()
         {
             { "baseUrl", baseUrl },
             { "start", start },
             { "count", count },
             { "riskId", riskId }
         });
-        var response = await http.GetAsync<AlertsResponse>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        var response = await _client.GetAsync<AlertsResponse>();
         return response;
     }
 
     public async Task<IResponse?> ViewAlertsSummary(string baseUrl)
     {
-        Http http = new(ViewAlertsSummaryUri);
-        http.AddParameter("baseUrl", baseUrl);
-        var response = await http.GetAsync<AlertsSummaryResponse>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        _client = new ZapApiClient(ViewAlertsSummaryUri);
+        _client.AddParameter("baseUrl", baseUrl);
+        var response = await _client.GetAsync<AlertsSummaryResponse>();
         return response;
     }
 
     public async Task<IResponse?> ViewNumberOfAlerts(string baseUrl, string riskId)
     {
-        Http http = new(ViewNumberOfAlertsUri);
-        http.AddParameter("baseUrl", baseUrl);
-        http.AddParameter("riskId", riskId);
-        var response = await http.GetAsync<NumberOfAlertsResponse>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        _client = new ZapApiClient(ViewNumberOfAlertsUri);
+        _client.AddParameter("baseUrl", baseUrl);
+        _client.AddParameter("riskId", riskId);
+        var response = await _client.GetAsync<NumberOfAlertsResponse>();
         return response;
     }
 
     public async Task<IResponse?> ViewAlertsByRisk(string url,bool recurse)
     {
-        Http http = new(ViewAlertsByRiskUri);
-        http.AddParameter("url", url);
-        http.AddParameter("recurse", recurse);
-        var response = await http.GetAsync<AlertsByRiskResponse>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        _client = new ZapApiClient(ViewAlertsByRiskUri);
+        _client.AddParameter("url", url);
+        _client.AddParameter("recurse", recurse);
+        var response = await _client.GetAsync<AlertsByRiskResponse>();
         return response;
     }
 
     public async Task<IResponse?> ViewAlertCountsByRisk(string url, bool recurse)
     {
-        Http http = new(ViewAlertCountsByRiskUri);
-        http.AddParameter("url", url);
-        http.AddParameter("recurse", recurse);
-        var response = await http.GetAsync<AlertsSummary>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        _client = new ZapApiClient(ViewAlertCountsByRiskUri);
+        _client.AddParameter("url", url);
+        _client.AddParameter("recurse", recurse);
+        var response = await _client.GetAsync<AlertsSummary>();
         return response;
     }
         
     public async Task<IResponse?> ActionDeleteAllAlerts()
     {
-        Http http = new(ActionDeleteAllAlertsUri);
-        var response = await http.GetAsync<ActionResponse>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        _client = new ZapApiClient(ActionDeleteAllAlertsUri);
+        var response = await _client.GetAsync<ActionResponse>();
         return response;
     }
         
     public async Task<IResponse?> ActionDeleteAlert(int id)
     {
-        Http http = new(ActionDeleteAlertUri);
-        http.AddParameter("id", id);
-        var response = await http.GetAsync<ActionResponse>();
-        Console.WriteLine(JsonConvert.SerializeObject(response));
+        _client = new ZapApiClient(ActionDeleteAlertUri);
+        _client.AddParameter("id", id);
+        var response = await _client.GetAsync<ActionResponse>();
         return response;
     }
 }
