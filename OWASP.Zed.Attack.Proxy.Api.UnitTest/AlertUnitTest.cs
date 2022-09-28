@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using OWASP.Zed.Attack.Proxy.Api.Development.Kit.V1;
 
 namespace OWASP.Zed.Attack.Proxy.Api.UnitTest;
@@ -8,7 +9,7 @@ public class AlertUnitTest
     public void Setup()
     {
         Env.BaseUri = "http://localhost:8080/JSON";
-        Env.ApiKey = "7c4ppfion0q4t0o526p11qb3uj";
+        Env.ApiKey = "hrci86ufqv442haua6eea9lj50";
     }
 
     [Test]
@@ -24,8 +25,9 @@ public class AlertUnitTest
         var baseUrl = "http://lyra.mediinfo.cn";
         var start = 1;
         var count = 10;
-        string riskId = null;
-        await new Alert().ViewAlerts(baseUrl, start, count, riskId);
+        string riskId = "3";
+        var result = await new Alert().ViewAlerts(baseUrl, start, count, riskId);
+        Console.WriteLine(JsonConvert.SerializeObject(result));
     }
 
     [Test]
@@ -71,6 +73,4 @@ public class AlertUnitTest
         var id = 1;
         await new Alert().ActionDeleteAlert(id);
     }
-
-
 }

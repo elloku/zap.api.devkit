@@ -17,7 +17,7 @@ public class Alert
     private const string ActionDeleteAlertUri = "/alert/action/deleteAlert/";
 
     private ZapApiClient _client;
-    
+
     public async Task<IResponse?> ViewAlert(int id)
     {
         _client = new ZapApiClient(ViewAlertUri);
@@ -27,15 +27,23 @@ public class Alert
         return response;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="baseUrl"></param>
+    /// <param name="start"></param>
+    /// <param name="count"></param>
+    /// <param name="riskId">0:INFO 1:LOW 2:MEDIUM 3:HIGH</param>
+    /// <returns></returns>
     public async Task<IResponse?> ViewAlerts(string baseUrl, int start, int count, string riskId)
     {
         _client = new ZapApiClient(ViewAlertsUri);
         _client.AddParameters(new Dictionary<string, object?>()
         {
-            { "baseUrl", baseUrl },
-            { "start", start },
-            { "count", count },
-            { "riskId", riskId }
+            {"baseUrl", baseUrl},
+            {"start", start},
+            {"count", count},
+            {"riskId", riskId}
         });
         var response = await _client.GetAsync<AlertsResponse>();
         return response;
@@ -58,7 +66,14 @@ public class Alert
         return response;
     }
 
-    public async Task<IResponse?> ViewAlertsByRisk(string url,bool recurse)
+    /// <summary>
+    /// Gets a summary of the alerts
+    /// </summary>
+    /// <param name="url">filtered by a 'url'</param>
+    /// <param name="recurse">true:start with the specified 'url'
+    ///                       false:only those on exactly the same 'url' (ignoring url parameters)</param>
+    /// <returns></returns>
+    public async Task<IResponse?> ViewAlertsByRisk(string url, bool recurse)
     {
         _client = new ZapApiClient(ViewAlertsByRiskUri);
         _client.AddParameter("url", url);
@@ -75,14 +90,14 @@ public class Alert
         var response = await _client.GetAsync<AlertsSummary>();
         return response;
     }
-        
+
     public async Task<IResponse?> ActionDeleteAllAlerts()
     {
         _client = new ZapApiClient(ActionDeleteAllAlertsUri);
         var response = await _client.GetAsync<ActionResponse>();
         return response;
     }
-        
+
     public async Task<IResponse?> ActionDeleteAlert(int id)
     {
         _client = new ZapApiClient(ActionDeleteAlertUri);

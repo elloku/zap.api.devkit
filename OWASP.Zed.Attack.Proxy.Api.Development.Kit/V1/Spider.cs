@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.V1.Spider
+namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.V1
 {
     public class Spider
     {

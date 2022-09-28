@@ -1,11 +1,11 @@
 namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response.Alert;
 
-public class AlertResponse:IResponse
+public class AlertResponse : IResponse
 {
     public Alert alerts { get; set; }
 }
 
-public class AlertsResponse:IResponse
+public class AlertsResponse : IResponse
 {
     public Alert[] alerts { get; set; }
 }
@@ -23,7 +23,7 @@ public class Alert
     public string description { get; set; }
     public string messageId { get; set; }
     public string url { get; set; }
-    public Dictionary<string,string> tags { get; set; }
+    public Dictionary<string, string> tags { get; set; }
     public string reference { get; set; }
     public string solution { get; set; }
     public string alert { get; set; }
@@ -43,4 +43,3 @@ public class Tags
     public string OWASP_2021_A01 { get; set; }
     public string OWASP_2017_A03 { get; set; }
 }
-

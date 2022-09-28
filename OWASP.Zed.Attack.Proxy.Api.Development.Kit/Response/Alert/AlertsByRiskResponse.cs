@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response.Alert;
 
-public class AlertsByRiskResponse:IResponse
+public class AlertsByRiskResponse : IResponse
 {
     public AlertsByRisk[] alertsByRisk { get; set; }
 }
@@ -19,6 +19,7 @@ public class Informational
 {
     [JsonProperty("Information Disclosure - Suspicious Comments")]
     public InformationDisclosureSuspiciousComments[] InformationDisclosureSuspiciousComments { get; set; }
+
     [JsonProperty("Re-examine Cache-control Directives")]
     public ReExamineCacheControlDirectives[] ReexamineCachecontrolDirectives { get; set; }
 }
@@ -47,6 +48,7 @@ public class Low
 {
     [JsonProperty("Timestamp Disclosure - Unix")]
     public TimestampDisclosureUnix[] TimestampDisclosureUnix { get; set; }
+
     [JsonProperty("X-Content-Type-Options Header Missing")]
     public XContentTypeOptionsHeaderMissing[] XContentTypeOptionsHeaderMissing { get; set; }
 }
@@ -75,8 +77,10 @@ public class Medium
 {
     [JsonProperty("Content Security Policy (CSP) Header Not Set")]
     public ContentSecurityPolicyCSPHeaderNotSet[] ContentSecurityPolicyCSPHeaderNotSet { get; set; }
+
     [JsonProperty("Missing Anti-clickjacking Header")]
     public MissingAntiClickjackingHeader[] MissingAnticlickjackingHeader { get; set; }
+
     [JsonProperty("Vulnerable JS Library")]
     public VulnerableJSLibrary[] VulnerableJSLibrary { get; set; }
 }

@@ -4,6 +4,11 @@ namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response
 {
     public class ErrorResponse : IResponse
     {
+        public ErrorResponse(string message)
+        {
+            Code = "-999";
+            Message = message;
+        }
         /// <summary>
         /// 
         /// </summary>

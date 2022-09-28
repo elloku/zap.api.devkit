@@ -1,4 +1,5 @@
 using OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response;
+using OWASP.Zed.Attack.Proxy.Api.Development.Kit.Response.Ascan;
 using OWASP.Zed.Attack.Proxy.Api.Development.Kit.Utils;
 
 namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.V1;
@@ -91,22 +92,27 @@ public class Ascan
     private const string ActionSetOptionThreadPerHostUri = "";
 
     private ZapApiClient _client;
-    
-    public async Task<IResponse?> ActionScan(string url,bool recurse,bool inScopeOnly,string scanPolicyName,string 
-    method,string postData,string contextId)
+
+    public Ascan(ZapApiClient client)
+    {
+        _client = client;
+    }
+
+    public async Task<IResponse?> ActionScan(string url, bool recurse, bool inScopeOnly, string scanPolicyName, string
+        method, string postData, string contextId)
     {
         _client = new ZapApiClient(ActionScanUri);
         _client.AddParameters(new Dictionary<string, object?>()
         {
-            { "url", url },
-            { "recurse", recurse },
-            { "inScopeOnly", inScopeOnly },
-            { "scanPolicyName", scanPolicyName },
-            { "method", method },
-            { "postData", postData },
-            { "contextId", contextId }
+            {"url", url},
+            {"recurse", recurse},
+            {"inScopeOnly", inScopeOnly},
+            {"scanPolicyName", scanPolicyName},
+            {"method", method},
+            {"postData", postData},
+            {"contextId", contextId}
         });
-        var response = await _client.GetAsync<ActionResponse>();
+        var response = await _client.GetAsync<ScanResponse>();
         return response;
     }
 }

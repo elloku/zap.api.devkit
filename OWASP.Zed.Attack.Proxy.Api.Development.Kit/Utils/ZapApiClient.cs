@@ -7,9 +7,28 @@ namespace OWASP.Zed.Attack.Proxy.Api.Development.Kit.Utils;
 
 public class ZapApiClient
 {
-    private RestClient _client;
-    private RestRequest _request;
-    private ParametersCollection _parameters;
+    private readonly RestClient _client;
+    private RestRequest? _request;
+    private readonly ParametersCollection _parameters;
+
+    public ZapApiClient()
+    {
+        _client ??= new RestClient();
+        _request = new RestRequest(Env.BaseUri);
+        _parameters ??= new ParametersCollection();
+    }
+
+    public ZapApiClient(string requestUri)
+    {
+        _client ??= new RestClient();
+        _request = new RestRequest(Env.BaseUri + requestUri);
+        _parameters ??= new ParametersCollection();
+    }
+
+    public void SetRequest(string requestUri)
+    {
+        _request = new RestRequest(Env.BaseUri + requestUri);
+    }
 
     public void AddParameter(string name, string? value, bool encode = true)
     {
@@ -32,50 +51,51 @@ public class ZapApiClient
         }
     }
 
-    public ZapApiClient(string requestUri)
-    {
-        _client ??= new RestClient();
-        _request = new RestRequest(Env.BaseUri + requestUri);
-        _parameters ??= new ParametersCollection();
-    }
 
     public async Task<IResponse?> GetAsync<T>()
     {
-        _request.AddHeader("Accept", "application/json");
-        _request.AddHeader("X-ZAP-API-Key", Env.ApiKey);
-        foreach (var parameter in _parameters)
+        if (_request == null)
         {
-            _request.AddParameter(parameter);
+            return new ErrorResponse("Enter you endpoint please!");
         }
-        var response = await _client.ExecuteAsync(_request);
+
+        var response = await this.ExecuteAsync();
+        
         if (response.Content == null)
         {
-            return new ErrorResponse();
+            return new ErrorResponse("this url call result is null!");
         }
+
         if (response.StatusCode != HttpStatusCode.OK)
         {
-            return JsonConvert.DeserializeObject<ErrorResponse>(response.Content) as IResponse;
+            return JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
         }
+
         return JsonConvert.DeserializeObject<T>(response.Content) as IResponse;
     }
 
-    public async Task<IResponse?> PostAsync<T>()
+    public async Task<string> GetAsync()
     {
-        _request.AddHeader("Accept", "application/json");
-        _request.AddHeader("X-ZAP-API-Key", Env.ApiKey);
+        if (_request == null)
+        {
+            return "Enter you endpoint please!";
+        }
+
+        var response = await this.ExecuteAsync();
+        
+        return response.Content ?? "this url call result is null!";
+    }
+
+    private async Task<RestResponse> ExecuteAsync()
+    {
+        _request!.AddHeader("Accept", "application/json");
+        _request!.AddHeader("X-ZAP-API-Key", Env.ApiKey);
         foreach (var parameter in _parameters)
         {
-            _request.AddParameter(parameter);
+            _request!.AddParameter(parameter);
         }
-        var response = await _client.ExecuteAsync(_request, Method.Post);
-        if (response.Content == null)
-        {
-            return new ErrorResponse();
-        }
-        if (response.StatusCode != HttpStatusCode.OK)
-        {
-            return JsonConvert.DeserializeObject<ErrorResponse>(response.Content) as IResponse;
-        }
-        return JsonConvert.DeserializeObject<T>(response.Content) as IResponse;
+
+        return await _client.ExecuteAsync(_request!);
     }
+
 }
